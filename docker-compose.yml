@@ -1,0 +1,20 @@
+version: '3'
+services:
+  flyway:
+    image: flyway/flyway
+    command: migrate
+    volumes:
+      - ./config:flyway/config
+      - ./migrations:/flyway/sql
+    depends_on:
+      - db
+  db:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=myschema
+      - MYSQL_USER=fraser
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=P@ssw0rd
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 33306:3306
